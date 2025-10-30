@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Aplikasi SITTA</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <navbar>
+      <div class="nav-container">
+        <div class="hamburger" id="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="dashboard.html">Home</a></li>
+          <li><a href="stock.html">Informasi Bahan Ajar</a></li>
+          <li><a href="tracking.html">Tracking Pengiriman</a></li>
+          <li class="dropdown">
+            <p class="dropbtn">Laporan</p>
+            <div class="dropdown-content">
+              <a href="#">Monitoring Progress DO Bahan Ajar</a>
+              <a href="#">Rekap Bahan Ajar</a>
+            </div>
+          </li>
+          <li><a href="#">Histori Transaksi Bahan Ajar</a></li>
+          <li><button id="pic" onclick="logoutUser()">Keluar</button></li>
+        </ul>
+      </div>
+    </navbar>
+
+    <div class="dashboard-content">
+      <div class="content-card">
+        <h1>Dashboard Aplikasi SITTA</h1>
+        <p class="greeting-text">
+          <span id="greeting">Selamat Sore, Admin SITTA!</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="nav-overlay" id="nav-overlay"></div>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

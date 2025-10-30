@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Aplikasi SITTA</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <navbar>
+      <div class="nav-container">
+        <div class="hamburger" id="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="dashboard.html">Home</a></li>
+          <li><a href="stock.html">Informasi Bahan Ajar</a></li>
+          <li><a href="tracking.html">Tracking Pengiriman</a></li>
+          <li class="dropdown">
+            <p class="dropbtn">Laporan</p>
+            <div class="dropdown-content">
+              <a href="#">Monitoring Progress DO Bahan Ajar</a>
+              <a href="#">Rekap Bahan Ajar</a>
+            </div>
+          </li>
+          <li><a href="#">Histori Transaksi Bahan Ajar</a></li>
+          <li><button id="pic" onclick="logoutUser()">Keluar</button></li>
+        </ul>
+      </div>
+    </navbar>
+
+    <div class="dashboard-content">
+      <div class="content-card">
+        <h1>Detail Bahan Ajar</h1>
+        <p class="greeting-text" hidden>
+          <span id="greeting"></span>
+        </p>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Kode Lokasi</th>
+                <th>Kode Barang</th>
+                <th>Nama Barang</th>
+                <th>Jenis</th>
+                <th>Edisi</th>
+                <th>Stok</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="modal-overlay" id="modalDetailBahanAjar">
+      <div class="modal">
+        <button class="modal-close" id="closeBahanAjar">&times;</button>
+        <h2>Detail Bahan Ajar</h2>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+    <div class="nav-overlay" id="nav-overlay"></div>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

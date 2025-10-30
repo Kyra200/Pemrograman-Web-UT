@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Aplikasi SITTA</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <navbar>
+      <div class="nav-container">
+        <div class="hamburger" id="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="dashboard.html">Home</a></li>
+          <li><a href="stock.html">Informasi Bahan Ajar</a></li>
+          <li><a href="tracking.html">Tracking Pengiriman</a></li>
+          <li class="dropdown">
+            <p class="dropbtn">Laporan</p>
+            <div class="dropdown-content">
+              <a href="#">Monitoring Progress DO Bahan Ajar</a>
+              <a href="#">Rekap Bahan Ajar</a>
+            </div>
+          </li>
+          <li><a href="#">Histori Transaksi Bahan Ajar</a></li>
+          <li><button id="pic" onclick="logoutUser()">Keluar</button></li>
+        </ul>
+      </div>
+    </navbar>
+    <div class="dashboard-content">
+      <div class="content-card">
+        <div class="container">
+          <form id="formLacak">
+            <div class="search-section">
+              <p class="greeting-text" hidden>
+                <span id="greeting"></span>
+              </p>
+              <label class="search-label">No. DO/Resi</label>
+              <div class="search-box">
+                <input
+                  type="text"
+                  class="search-input"
+                  id="noResi"
+                  placeholder="Masukkan nomor resi"
+                />
+                <button class="track-button" id="lacak">Lacak</button>
+              </div>
+              <br />
+              <label class="search-label"
+                >contoh resi : 2023005678 / 2023001234</label
+              >
+            </div>
+          </form>
+
+          <div class="card" id="cardResult" style="display: none">
+            <div class="card-header"></div>
+            <div class="card-number"></div>
+            <div class="card-details"></div>
+          </div>
+
+          <div
+            class="timeline-section"
+            id="timelineResult"
+            style="display: none"
+          >
+            <h2 class="timeline-title">Perjalanan Paket</h2>
+            <div class="timeline"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-overlay" id="nav-overlay"></div>
+  </body>
+  <script src="js/data.js"></script>
+  <script src="js/script.js"></script>
+</html>

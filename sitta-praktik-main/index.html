@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <img src="/img/img/logo-ut-small-transparent-300x226.png" alt="Logo UT" class="logo">
+      <h1>Login SITTA-UT</h1>
+
+      <div id="pesan" class="pesan"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            required
+            placeholder="Masukkan Email"
+            autocomplete="on"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            placeholder="Masukkan password"
+          />
+        </div>
+        <button type="submit" id="login">Login</button>
+      </form>
+
+      <div class="form-footer">
+        <button class="link-btn" id="lupaPassword">Lupa Password?</button>
+        <button class="link-btn" id="register">Daftar</button>
+      </div>
+    </div>
+
+    <!-- Modal Lupa Password -->
+    <div class="modal-overlay" id="lupaPasswordModal">
+      <div class="modal">
+        <button class="modal-close" id="closelupaPassword">&times;</button>
+        <h2>Lupa Password</h2>
+        <p>Masukkan email Anda untuk menerima link reset password</p>
+
+        <div id="pesanPasswordModal" class="message"></div>
+
+        <form id="lupaPaswordForm">
+          <div class="form-group">
+            <label for="lupaEmail">Email:</label>
+            <input
+              type="lupaEmail"
+              id="lupaEmail"
+              name="lupaEmail"
+              placeholder="contoh@gmail.com"
+            />
+          </div>
+          <button type="submit" id="kirimLink">Kirim Link Reset</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Daftar -->
+    <div class="modal-overlay" id="registerModal">
+      <div class="modal">
+        <button class="modal-close" id="closeRegister">&times;</button>
+        <h2>Daftar Akun Baru</h2>
+        <p>Lengkapi data di bawah untuk membuat akun</p>
+
+        <div id="registerPesan" class="message"></div>
+
+        <form id="registerForm">
+          <div class="register-grid">
+            <div class="form-group">
+              <label for="namaLengkap">Nama Lengkap:</label>
+              <input
+                type="text"
+                id="namaLengkap"
+                name="namaLengkap"
+                required
+                placeholder="Nama Lengkap"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="emailBaru">Email:</label>
+              <input
+                type="email"
+                id="emailBaru"
+                name="emailBaru"
+                required
+                placeholder="contoh@email.com"
+              />
+            </div>
+            <div class="form-group">
+              <label for="lokasiBaru">lokasi:</label>
+              <input
+                type="text"
+                id="lokasiBaru"
+                name="lokasiBaru"
+                required
+                placeholder="Lokasi"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="passwordBaru">Password:</label>
+              <input
+                type="password"
+                id="passwordBaru"
+                name="passwordBaru"
+                required
+                placeholder="Min. 8 karakter"
+              />
+            </div>
+          </div>
+          <button type="submit" id="simpanDaftar">Daftar Sekarang</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+<script src="js/data.js"></script>
+<script src="js/script.js"></script>
