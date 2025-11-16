@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Aplikasi SITTA</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <navbar>
+      <div class="nav-container">
+        <a href="index.html" class="navbar-brand">
+          <div class="navbar-brand-logo"><img src="img/img/logoUT.png" alt="Logo UT"></div>
+          <div class="navbar-brand-text">
+            <div class="navbar-brand-main">APLIKASI</div>
+            <div class="navbar-brand-sub">SITTA UT</div>
+          </div>
+        </a>
+
+        <div class="hamburger" id="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="stock.html">Informasi Bahan Ajar</a></li>
+          <li><a href="tracking.html">Tracking Pengiriman</a></li>
+          <li class="dropdown">
+            <p class="dropbtn">Laporan</p>
+            <div class="dropdown-content">
+              <a href="#">Monitoring Progress DO Bahan Ajar</a>
+              <a href="#">Rekap Bahan Ajar</a>
+            </div>
+          </li>
+          <li><a href="#">Histori Transaksi Bahan Ajar</a></li>
+          <li><button id="pic" onclick="logoutUser()">Keluar</button></li>
+        </ul>
+      </div>
+    </navbar>
+
+    <div class="dashboard-content">
+      <div class="content-card">
+        <h1>Dashboard Aplikasi SITTA</h1>
+        <p class="greeting-text">
+          <span id="greeting">Selamat Sore, Admin SITTA!</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="nav-overlay" id="nav-overlay"></div>
+
+    <script src="js/dataBahanAjar.js"></script>
+    <script>
+/* Inlined from js/script.js - shared utilities and page initializers */
+
+/* Gabungan script untuk semua halaman.
+  File ini menggabungkan login.js, dashboard.js, stock.js dan tracking.js
+  serta melindungi akses DOM sehingga bisa di-include pada halaman mana
+  pun tanpa menyebabkan error jika elemen tertentu tidak ada.
+  Fungsi yang direferensikan secara inline (mis. showDetail) tetap
+  diekspos pada scope global.
+*/
+
+// -- Utility helpers
+/* safeGet(id)
+   - Tujuan: pembungkus kecil untuk document.getElementById yang mengembalikan
+     null jika elemen tidak ada. Digunakan untuk mencegah error runtime ketika
+     script gabungan dimuat pada halaman yang tidak punya semua elemen.
+   - Dipakai di: semua halaman (login, dashboard, stock, tracking)
+*/
+function safeGet(id) {
+  return document.getElementById(id);
+}
+
+function openModal(modal) {
+  /* openModal(modal)
+     - Tujuan: menampilkan modal overlay secara konsisten (menambahkan kelas
+       `active` dan mencegah scroll pada body). Digunakan oleh modal daftar,
+       lupa password, dan modal detail stock.
+     - Digunakan oleh: index.html (register/lupa), stock.html (detail modal)
+  */
+  if (!modal) return;
+  modal.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal(modal) {
+  /* closeModal(modal)
+    - Tujuan: menutup modal yang sebelumnya dibuka dengan openModal.
+    - Digunakan oleh: index.html dan stock.html
+  */
+  if (!modal) return;
+  modal.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+// -- Dashboard / auth helpers
+function cekLogin() {
+  /* cekLogin()
+     - Tujuan: menerapkan cek otentikasi sederhana di sisi klien menggunakan
+       localStorage (`authToken`, `user`). Jika halaman berisi elemen dashboard
+       namun user belum login, akan diarahkan ke `index.html`.
+     - Digunakan oleh: dashboard.html (dipanggil saat DOMContentLoaded). Catatan:
+       ini hanya guard ringan untuk demo statis (bukan pengamanan server-side).
+  */
+
+  // Only run protection if the page contains dashboard-specific elements
+  const needsAuth = !!(
+    safeGet("greeting") || safeGet("logoutButton") || safeGet("loggedInUser")
+  );
+
+  if (!needsAuth) return; // not a protected page
+
+
+  const logoutButton = safeGet("logoutButton");
+  if (logoutButton) logoutButton.addEventListener("click", logoutUser);
+}
+
+function updateGreeting(username) {
+  /* updateGreeting(username)
+     - Tujuan: mengisi teks sapaan di elemen `#greeting` berdasarkan waktu hari ini.
+     - Digunakan oleh: dashboard.html (dan halaman lain yang menyertakan elemen
+       greeting secara tersembunyi).
+  */
+  const el = safeGet("greeting");
+  if (!el) return;
+  const date = new Date();
+  const hour = date.getHours();
+  let greetingText;
+
+  if (hour >= 4 && hour < 12) {
+    greetingText = "Selamat Pagi";
+  } else if (hour >= 12 && hour < 15) {
+    greetingText = "Selamat Siang";
+  } else if (hour >= 15 && hour < 18) {
+    greetingText = "Selamat Sore";
+  } else {
+    greetingText = "Selamat Malam";
+  }
+
+  el.textContent = `${greetingText}, ${username}!`;
+}
+
+function logoutUser() {
+  /* logoutUser()
+     - Tujuan: menghapus kunci otentikasi dari localStorage dan mengarahkan
+       kembali ke `index.html`.
+     - Digunakan oleh: dashboard.html melalui tombol `Keluar` (`onclick="logoutUser()").
+  */
+  localStorage.removeItem(userTokenKey);
+  localStorage.removeItem(userNameKey);
+  alert("Anda telah logout.");
+  window.location.href = "index.html";
+}
+
+// -- Stock / UI helpers (moved to external file `js/stock-app.js`)
+// Stock-specific helpers (jumlahStok, dataTabel, showDetail and modal handlers)
+// are now loaded from `js/stock-app.js` to keep index.html lean.
+  </script>
+  <script src="js/stock-app.js"></script>
+  <script>
+
+// -- Init on DOMContentLoaded: run only the initializers that apply to the page
+document.addEventListener("DOMContentLoaded", () => {
+  // Jalankan inisialisasi spesifik-halaman. Setiap inisialisasi memeriksa
+  // keberadaan elemen sehingga script gabungan aman untuk di-include di seluruh situs.
+  cekLogin();    // dashboard guard & greeting
+  dataTabel();   // stock table (if table exists)
+  // initTracking & initNav dipindahkan ke js/tracking-app.js
+});
+
+// Expose showDetail globally for inline onclick use
+window.showDetail = showDetail;
+
+    </script>
+  </body>
+</html>
