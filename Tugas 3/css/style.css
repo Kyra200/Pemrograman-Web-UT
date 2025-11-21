@@ -1,0 +1,1284 @@
+/* GLOBAL: reset and base box model
+   Applies to ALL pages (index, dashboard, stock, tracking)
+*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BASE LAYOUT: page background and general body layout
+   Used across pages; provides the gradient background used on index and
+   also as the surrounding layout for other pages. (all pages)
+*/
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #000000 0%, #0011ff 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow-x: hidden;
+  flex-direction: column;
+  background-attachment: fixed
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 70%
+  );
+  top: -250px;
+  right: -250px;
+  animation: pulse 8s ease-in-out infinite;
+  z-index: 0;
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 70%
+  );
+  bottom: -200px;
+  left: -200px;
+  animation: pulse 10s ease-in-out infinite reverse;
+  z-index: 0;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* MODAL LAYOUT (index.html, stock.html)
+   `.modal-overlay` and `.modal` are used by the login/register modals on
+   `index.html` and the detail modal on `stock.html`. Keep these styles
+   shared so modal markup in different pages looks consistent.
+*/
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  overflow-y: auto;
+  padding: 80px 20px;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  padding: 40px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 420px;
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  color: #4a5568;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background: #edf2f7;
+  color: #2d3748;
+  transform: rotate(90deg);
+}
+
+.modal h2 {
+  color: #2d3748;
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.modal p {
+  color: #4a5568;
+  margin-bottom: 30px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.register-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.register-grid .form-group {
+  grid-column: span 2;
+}
+
+.register-grid .form-group.half {
+  grid-column: span 1;
+}
+
+navbar {
+  background: rgba(45, 55, 72, 0.95);
+  backdrop-filter: blur(20px);
+  color: white;
+  padding: 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* NAVBAR (dashboard.html, stock.html, tracking.html)
+   Main site navigation and dropdown styles. Not used on `index.html`.
+*/
+
+.nav-container {
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 0 20px;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 60px;
+}
+
+.navbar-brand {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-right: auto;
+	text-decoration: none;
+	color: white;
+	font-weight: 700;
+	font-size: 18px;
+	transition: all 0.3s ease;
+	position: absolute;
+	left: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.navbar-brand:hover {
+	opacity: 0.8;
+	transform: translateY(-50%) translateY(-2px);
+}
+
+.navbar-brand-logo {
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: none;
+}
+
+.navbar-brand-logo img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.navbar-brand-text {
+	display: flex;
+	flex-direction: column;
+	line-height: 1.1;
+}
+
+.navbar-brand-main {
+	font-size: 16px;
+	font-weight: 700;
+	color: white;
+}
+
+.navbar-brand-sub {
+	font-size: 11px;
+	font-weight: 500;
+	color: rgba(255, 255, 255, 0.7);
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+}.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-links > li {
+  position: relative;
+}
+
+.nav-links a {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  padding: 18px 24px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(135deg, #ffffff 0%, #00ffea 100%);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  border-radius: 3px 3px 0 0;
+}
+
+.nav-links a:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-links a:hover::after {
+  width: 80%;
+}
+
+.dropbtn {
+  cursor: pointer;
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 18px 24px;
+  border: none;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  width: 100%;
+  text-align: left;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.dropbtn::after {
+  content: "▼";
+  font-size: 10px;
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.dropdown:hover .dropbtn::after {
+  transform: rotate(180deg);
+}
+
+.dropbtn:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #f687b3 100%);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  min-width: 280px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  border-radius: 0 0 12px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-content a {
+  color: #2d3748;
+  padding: 14px 20px;
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 14px;
+  border-left: 3px solid transparent;
+}
+
+.dropdown-content a:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(139, 92, 246, 0.1) 0%,
+    transparent 100%
+  );
+  border-left-color: #8b5cf6;
+  padding-left: 24px;
+  color: #8b5cf6;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dashboard-content {
+  padding: 40px 20px;
+  padding-top: 80px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+/* DASHBOARD (dashboard.html)
+   Content area and main dashboard card styles. `#greeting` is shown on the
+   dashboard and hidden on other pages (but markup may exist there).
+*/
+
+.nav-links > li:last-child {
+  margin-left: auto;
+}
+#pic {
+  padding: 10px 24px;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+  color: rgb(0, 0, 0);
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+  box-shadow: linear-gradient(135deg, #0011ff 0%, #525252 100%);
+
+  line-height: 1.5;
+  height: fit-content;
+}
+
+#pic:hover {
+  background: #c82333;
+  box-shadow: 0 6px 15px rgba(220, 53, 69, 0.6);
+}
+
+.content-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 50px 45px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+}
+
+.dashboard-content h1 {
+  color: #2d3748;
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+#greeting {
+  font-size: 1.5em;
+  color: #03045e;
+  font-weight: 600;
+  display: inline-block;
+  background: linear-gradient(135deg, #00c3ff 1%, #002fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* GREETING (dashboard.html)
+   The `#greeting` element is the personalized greeting text in the
+   dashboard header. Other pages include a hidden greeting placeholder.
+*/
+
+.greeting-text {
+  font-size: 1.2em;
+  color: #4a5568;
+  margin-top: 10px;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+  z-index: 1001;
+  padding: 5px 0;
+}
+
+/* NAVIGATION MOBILE / HAMBURGER (dashboard, stock, tracking)
+   Small-screen navigation toggle used on pages that include the navbar.
+*/
+
+.hamburger span.bar {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(1) {
+  transform: translateY(11px) rotate(45deg);
+}
+
+.hamburger.active .bar:nth-child(3) {
+  transform: translateY(-11px) rotate(-45deg);
+}
+
+.nav-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
+.nav-overlay.active {
+  display: block;
+}
+
+@media (max-width: 768px) {
+	.hamburger {
+		display: flex;
+		margin-left: auto;
+		align-self: center;
+	}
+
+	.nav-container {
+		padding: 15px 20px;
+	}
+
+	.navbar-brand {
+		margin-right: 15px;
+	}
+
+	.navbar-brand-logo {
+		width: 36px;
+		height: 36px;
+		font-size: 18px;
+	}
+
+	.navbar-brand-main {
+		font-size: 14px;
+	}
+
+	.navbar-brand-sub {
+		font-size: 10px;
+	}  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 80%;
+    max-width: 300px;
+    background: rgba(30, 41, 59, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 80px 0 20px 0;
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    z-index: 999;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links > li {
+    width: 100%;
+  }
+
+  .nav-links > li:last-child {
+    margin-left: 0;
+    margin-top: 20px;
+    padding: 0 20px;
+  }
+
+  .nav-links a {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-links a::after {
+    display: none;
+  }
+
+  .dropbtn {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+  }
+
+  .dropdown-content {
+    position: static;
+    box-shadow: none;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 0;
+    border: none;
+    animation: none;
+
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+  }
+
+  .dropdown.active .dropdown-content {
+    display: block;
+    max-height: 500px;
+  }
+
+  .dropdown-content a {
+    color: rgba(255, 255, 255, 0.9);
+    padding-left: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: none;
+  }
+
+  .dropdown-content a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding-left: 44px;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropbtn::after {
+    float: right;
+    transform: none;
+  }
+
+  .dropdown.active .dropbtn::after {
+    transform: rotate(180deg);
+  }
+
+  .content-card {
+    padding: 30px 25px;
+  }
+
+  .dashboard-content h1 {
+    font-size: 24px;
+  }
+
+  #greeting {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    width: 85%;
+  }
+
+  .dashboard-content {
+    padding: 20px 10px;
+    padding-top: 75px;
+  }
+
+  .content-card {
+    padding: 25px 20px;
+  }
+}
+
+/*
+  STOCK PAGE (stock.html)
+  Table, badges, detail modal styles used by the bahan ajar list and its
+  detail modal. Primary page: `stock.html`.
+*/
+
+.stock-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.stock-header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 30px 45px;
+  border-radius: 24px 24px 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: none;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  margin-bottom: 0;
+}
+
+.stock-header h1 {
+  color: #2d3748;
+  margin: 0 0 10px 0;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.stock-main {
+  display: flex;
+  gap: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 40px 45px;
+  border-radius: 0 0 24px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: none;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.stock-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.stock-sidebar {
+  width: 320px;
+  flex-shrink: 0;
+}
+
+.stock-search {
+  margin-bottom: 20px;
+}
+
+.stock-search input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.stock-search input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.stock-filter {
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #f8f9ff;
+  border-radius: 8px;
+  border: 1px solid #e8eaf6;
+}
+
+.stock-filter label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.stock-filter input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: #667eea;
+}
+
+.stock-info-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 25px;
+  border-radius: 12px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+}
+
+.stock-info-card h3 {
+  margin: 0 0 25px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+}
+
+.stock-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.stat-item {
+  padding: 18px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+}
+
+.stat-total {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.stat-aman {
+  background: rgba(76, 175, 80, 0.2);
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.stat-menipis {
+  background: rgba(255, 193, 7, 0.2);
+  border-color: rgba(255, 193, 7, 0.3);
+}
+
+.stat-kosong {
+  background: rgba(244, 67, 54, 0.2);
+  border-color: rgba(244, 67, 54, 0.3);
+}
+
+.table-wrapper {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: linear-gradient(135deg, #667eea 0%, #000000 100%);
+}
+
+thead th {
+  color: white;
+  padding: 20px 15px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+tbody tr:hover {
+  background-color: #f8f9ff;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody td {
+  padding: 18px 15px;
+  color: #333;
+  font-size: 14px;
+}
+
+.kode-barang {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.stok-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #f0f0f0;
+  color: #333;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stok-tinggi {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.stok-sedang {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.stok-rendah {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.btn-details {
+  background: linear-gradient(135deg, #1027a8 0%, #0077b6 100%);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-details:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(102, 126, 234, 0.4);
+}
+
+/* Delete button (table action) */
+.btn-delete {
+  background: linear-gradient(135deg, #ff6b6b 0%, #c82333 100%);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(200, 50, 50, 0.12);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-delete:hover {
+  transform: translateY(-2px);
+  filter: brightness(0.96);
+  box-shadow: 0 6px 12px rgba(200, 50, 50, 0.2);
+}
+
+/* Ensure consistent spacing for action buttons in table rows */
+tbody td .btn-details,
+tbody td .btn-delete {
+  margin-right: 8px;
+}
+
+/* Action buttons wrapper in table rows: keep buttons aligned and same baseline */
+tbody td .action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+tbody td .action-buttons button {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-details:active {
+  transform: translateY(0);
+}
+
+.modal-body {
+  padding: 0;
+  color: #333;
+}
+
+.detail-item {
+  display: flex;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #667eea;
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.detail-value {
+  color: #333;
+  flex: 1;
+}
+
+.book-cover {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin: 20px auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8em;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 900px;
+  }
+
+  .detail-item {
+    flex-direction: column;
+  }
+
+  .detail-label {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .stock-main {
+    flex-direction: column;
+    padding: 30px 25px;
+  }
+
+  .stock-sidebar {
+    width: 100%;
+  }
+
+  .stock-header {
+    padding: 25px 25px;
+  }
+
+  .stock-header h1 {
+    font-size: 24px;
+  }
+}
+/* 
+  TRACKING PAGE (tracking.html)
+  Search box, result card and timeline styles used only on tracking pages.
+  Primary page: `tracking.html`.
+*/
+.search-section {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-label {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid linear-gradient(135deg, #9f7aea 0%, #f687b3 100%);
+  border-radius: 5px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  border-color: linear-gradient(135deg, #9f7aea 0%, #f687b3 100%);
+}
+.track-button {
+  width: auto;
+  padding: 12px 30px;
+  margin: 0;
+}
+.card {
+  background: #3b5998;
+  color: white;
+  padding: 25px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.card-number {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.card-details {
+  font-size: 12px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.timeline-section {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 30px;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -29px;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  background: #ffd700;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px #ffd700;
+}
+
+.timeline-item::after {
+  content: "";
+  position: absolute;
+  left: -24px;
+  top: 20px;
+  width: 2px;
+  height: calc(100% + 10px);
+  background: #e0e0e0;
+}
+
+.timeline-item:last-child::after {
+  display: none;
+}
+
+.timeline-content {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 3px solid #ffd700;
+}
+
+.timeline-text {
+  color: #333;
+  font-size: 14px;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.timeline-date {
+  color: #999;
+  font-size: 12px;
+}
+
+/* Form input styles untuk modal */
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  font-family: inherit;
+  font-size: 14px;
+  color: #333;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+textarea {
+  resize: vertical;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  line-height: 1.5;
+}
+
+/* Bootstrap-style badge colors */
+.badge.bg-success {
+  background-color: #198754 !important;
+  color: white;
+}
+
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  color: #000;
+}
+
+.badge.bg-danger {
+  background-color: #dc3545 !important;
+  color: white;
+}
+
+/* Accessibility: visible focus state for keyboard users */
+button:focus, .btn-details:focus, .modal-close:focus {
+  outline: 3px solid rgba(102,126,234,0.25);
+  outline-offset: 2px;
+}
+
+/* Gentle hover visual for buttons when no inline JS hover is used */
+button:hover, .btn-details:hover {
+  filter: brightness(0.96);
+  transform: translateY(-1px);
+}
+
+/* Ensure focus-visible for keyboard navigation */
+button:focus-visible, .btn-details:focus-visible {
+  outline: 3px solid rgba(102,126,234,0.35);
+}
+
